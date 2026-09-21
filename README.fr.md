@@ -1,5 +1,5 @@
 <p align="right"><a href="README.md">English</a></p>
-<img src="assets/hero.svg" alt="TracePatch" width="100%">
+<img src="assets/cover.svg" alt="TracePatch" width="100%">
 
 # TracePatch
 
