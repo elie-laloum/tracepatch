@@ -1,14 +1,44 @@
 {
   "name": "@elie-laloum/tracepatch",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Reproduce a failing test and iterate on a scoped patch with recorded checks",
   "type": "module",
   "license": "MIT",
   "author": "Elie Laloum",
-  "engines": { "node": ">=22" },
-  "bin": { "tracepatch": "bin/tracepatch.js" },
-  "exports": "./src/engine.js",
-  "files": ["bin", "src", "adapters", "examples", "README.md", "README.fr.md", "LICENSE"],
-  "scripts": { "test": "node --test test/*.test.js", "demo": "node examples/demo.js" },
-  "repository": { "type": "git", "url": "https://gitlab.elielaloum.com/elielaloum/tracepatch.git" }
+  "engines": {
+    "node": ">=24"
+  },
+  "bin": {
+    "tracepatch": "dist/bin/tracepatch.js"
+  },
+  "exports": {
+    "types": "./dist/src/engine.d.ts",
+    "import": "./dist/src/engine.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "README.fr.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test test/*.test.ts",
+    "demo": "node examples/demo.ts",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "npm run typecheck && npm test",
+    "prepack": "tsc -p tsconfig.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.elielaloum.com/elielaloum/tracepatch.git"
+  },
+  "types": "./dist/src/engine.d.ts",
+  "devDependencies": {
+    "typescript": "7.0.2",
+    "@types/node": "^24.0.0",
+    "prettier": "3.9.8"
+  }
 }

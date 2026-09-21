@@ -1,7 +1,18 @@
 # Contributing
 
-Start with the quick start in the README and run the test suite before changing behavior. Keep pull requests focused on one observable improvement. Add a regression test for a bug, include reproduction steps, and document changes to the CLI or report format.
+Use Node.js 24 LTS (`.node-version`). From a fresh checkout:
 
-GitHub issues and pull requests are welcome. Accepted changes are integrated into the private GitLab source and mirrored back here. Do not include credentials, application logs or private source code in issues.
+```sh
+npm ci
+npm run check
+npm run build
+npm run demo
+npm run format:check
+npm pack --dry-run
+```
 
-For agent integrations, keep deterministic fixtures separate from live-provider evaluations. For performance changes, report the input, environment and measurement method.
+[Architecture](docs/architecture.md) explains the boundaries. Keep subprocesses in infrastructure, validation in domain, and workflow policy in the orchestrator. Add a regression test for changed behavior. Do not replace the real Git/npm fixtures with mocks; these checks verify that exported patches apply and the input checkout stays unchanged.
+
+Run `npm run format` before submitting. Build output is ignored and created during packing. Public types and the CLI are part of the compatibility contract. Reports retain schema version 1.
+
+GitHub issues and pull requests are welcome. Accepted changes are integrated through the private GitLab origin and mirrored to GitHub. Never include credentials or private application data.

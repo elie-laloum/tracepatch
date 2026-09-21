@@ -1,19 +1,7 @@
 <p align="right"><a href="README.md">English</a></p>
-<img src="assets/cover.svg" alt="TracePatch" width="100%">
+<img src="assets/cover-v2.png" alt="TracePatch" width="100%">
 
-<!-- project badges -->
-<p>
-<a href="README.md"><img src="https://img.shields.io/badge/version-0.1.0-24334b?style=flat-square" alt="Version 0.1.0"></a>
-<a href="https://github.com/elie-laloum/tracepatch/actions/workflows/ci.yml"><img src="https://github.com/elie-laloum/tracepatch/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI"></a>
-<a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-92bfff?style=flat-square&amp;labelColor=172033" alt="MIT"></a>
-<a href="README.md#see-it-in-action"><img src="https://img.shields.io/badge/demo-watch-92bfff?style=flat-square&amp;labelColor=172033" alt="Watch the demo"></a>
-</p>
-<p>
-<a href="README.md#quick-start"><img src="https://img.shields.io/badge/-TypeScript-92bfff?style=flat-square&amp;labelColor=172033&amp;logo=typescript&amp;logoColor=white" alt="TypeScript"></a>
-<a href="README.md#quick-start"><img src="https://img.shields.io/badge/-Node.js%2022%2B-92bfff?style=flat-square&amp;labelColor=172033&amp;logo=nodedotjs&amp;logoColor=white" alt="Node.js 22+"></a>
-<a href="README.md#quick-start"><img src="https://img.shields.io/badge/-Git-92bfff?style=flat-square&amp;labelColor=172033&amp;logo=git&amp;logoColor=white" alt="Git"></a>
-</p>
-<!-- /project badges -->
+[![CI](https://img.shields.io/github/actions/workflow/status/elie-laloum/tracepatch/ci.yml?branch=main&style=flat-square&label=CI)](https://github.com/elie-laloum/tracepatch/actions/workflows/ci.yml) [![License](https://img.shields.io/badge/license-MIT-586475?style=flat-square)](LICENSE)
 
 # TracePatch
 
@@ -27,12 +15,14 @@
 
 [Vidéo MP4](assets/demo.mp4) · [Reproduire la démo](docs/demo.md)
 
-## Essayer la version 0.1
+## Essayer la version 0.2
 
 ```sh
 git clone https://github.com/elie-laloum/tracepatch.git
 cd tracepatch
-npm test
+npm ci
+npm run check
+npm run build
 npm run demo
 ```
 
