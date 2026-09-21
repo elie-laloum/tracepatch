@@ -1,55 +1,29 @@
-<p align="center"><a href="README.md">English</a> · <strong>Français</strong></p>
-
-<p align="center"><img src="assets/hero.fr.svg" alt="TracePatch — Du test en échec au correctif vérifiable." width="100%"></p>
+<p align="right"><a href="README.md">English</a></p>
+<img src="assets/hero.svg" alt="TracePatch" width="100%">
 
 # TracePatch
 
-**D'un test en échec à un correctif que vous pouvez vérifier.**
+**Donnez à un agent un échec reproduit et un périmètre de code précis. Récupérez un patch accompagné des vérifications réellement exécutées.**
 
-Un workflow agentique open source conçu pour reproduire un échec, en rechercher la cause et restituer un correctif ciblé accompagné des vérifications effectuées.
+## Essayer la version 0.1
 
-> **En développement.** Ce dépôt contient la spécification et la documentation initiales. Aucune version exécutable n’est encore publiée.
-
-
-**Dépôt d’origine : [GitLab](https://gitlab.elielaloum.com/elielaloum/tracepatch)** · [Miroir public GitHub](https://github.com/elie-laloum/tracepatch). Le dépôt GitLab est privé ; son accès nécessite une autorisation. Les modifications du code sont intégrées dans GitLab puis synchronisées vers GitHub.
-
-
-## Le problème quotidien
-
-Un test passe au rouge. Vous naviguez entre le journal, le code et les tentatives de reproduction pour comprendre ce qui a changé. TracePatch vise à mener cette investigation jusqu'à un résultat examinable.
-
-## Le workflow prévu
-
-```text
-Test en échec → Reproduction → Investigation → Correctif ciblé → Contrôles → Rapport
+```sh
+git clone https://github.com/elie-laloum/tracepatch.git
+cd tracepatch
+npm test
+npm run demo
 ```
 
-L'agent doit travailler dans une copie isolée du dépôt, avec un nombre limité de tentatives et des observations conservées. S'il ne reproduit pas l'échec, il doit le signaler. Un test vert est un élément de preuve, pas une garantie de correction totale.
+La démonstration corrige le calcul des quantités dans un panier. Les tests existants passent ensuite et le dépôt de départ reste intact.
 
-## Périmètre initial
+## Utilisation et périmètre
 
-| Entrée | Travail | Sortie |
-|---|---|---|
-| Projet npm/Vitest local et commande de test explicite | Reproduire, examiner, modifier, vérifier | Patch, journaux, révision initiale, empreinte du résultat et rapport |
+Configurez un dépôt Git propre, les fichiers source autorisés, les commandes de test et un adaptateur. La démonstration utilise un adaptateur déterministe sans clé API. L’adaptateur Anthropic nécessite votre clé et un identifiant de modèle. Son contrat est testé, mais les performances de correction par modèle réel ne sont pas évaluées. Les commandes s’exécutent avec vos permissions locales.
 
-Commencer par une CLI locale et un adaptateur de modèle documenté. Ajouter les journaux GitHub Actions lorsque le workflow local est fiable. L'accès au modèle peut avoir un coût distinct ; le rapport doit rendre son usage visible.
+[Configuration complète et contrat de l’API](README.md#use-it-on-your-project) · [Limites détaillées](README.md#boundaries) · [Contribuer](CONTRIBUTING.md)
 
-## La démonstration à livrer
+La documentation technique de référence est en anglais. Cette traduction présente le démarrage et le périmètre de la version actuelle.
 
-Une petite application avec une régression connue : reproduire l'échec, corriger, relancer le test ciblé et les vérifications convenues, puis examiner le patch exporté. Distinguer la démo déterministe du moteur et les évaluations avec un vrai modèle.
+[GitLab origin](https://gitlab.elielaloum.com/elielaloum/tracepatch) · [GitHub mirror](https://github.com/elie-laloum/tracepatch)
 
-## Conditions de publication
-
-- Distinguer les échecs de test, les erreurs d'environnement et les cas non reproductibles.
-- Ne pas supprimer ou désactiver les tests existants pour annoncer un succès.
-- Montrer les tentatives échouées et les budgets épuisés.
-- Vérifier l'installation et les commandes depuis un environnement propre.
-
-## Contribuer au projet
-
-Premières contributions utiles : exemples minimaux de bugs, retours sur les rapports et adaptateurs de tests. Les instructions d'installation, la démo enregistrée et les coordonnées du paquet seront ajoutées après vérification.
-
-
----
-
-[Feuille de route](ROADMAP.md) · [Contribuer](CONTRIBUTING.md) · [Licence MIT](LICENSE)
+Le dépôt GitLab privé contient la source de référence ; GitHub en est le miroir public.

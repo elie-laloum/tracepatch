@@ -1,55 +1,114 @@
-<p align="center"><strong>English</strong> · <a href="README.fr.md">Français</a></p>
+<p align="right"><a href="README.fr.md">Français</a></p>
+<img src="assets/hero.svg" alt="TracePatch — A failing test. A focused patch. A reason to trust it." width="100%">
 
-<p align="center"><img src="assets/hero.svg" alt="TracePatch — From a failing test to a verifiable patch." width="100%"></p>
+[![CI](https://github.com/elie-laloum/tracepatch/actions/workflows/ci.yml/badge.svg)](https://github.com/elie-laloum/tracepatch/actions/workflows/ci.yml) ![Version](https://img.shields.io/badge/version-0.1.0-242b3a) [![License: MIT](https://img.shields.io/badge/license-MIT-242b3a)](LICENSE)
 
-# TracePatch
+**Give a repair agent a reproduced failure and a narrow source scope. Get a patch tied to the checks that actually ran.**
 
-**From a failing test to a patch you can verify.**
+Node.js 22+ · Git · Adapter protocol · [Quick start](#quick-start) · [How it works](#how-it-works) · [Boundaries](#boundaries)
 
-An open-source agent workflow designed to reproduce a test failure, investigate its cause, and return a focused patch with the checks that support it.
+## Why it exists
 
-> **In development.** This repository contains the initial specification and documentation. No executable release has shipped yet.
+### Reproduce first
+A passing baseline or an unrelated error stops the run. Your failure pattern defines the expected assertion.
 
+### Keep the change focused
+The adapter can replace existing, explicitly scoped source files. Tests, manifests, locks and configuration stay protected.
 
-**Original repository: [GitLab](https://gitlab.elielaloum.com/elielaloum/tracepatch)** · [Public GitHub mirror](https://github.com/elie-laloum/tracepatch). The GitLab origin is private and requires access. Code changes are integrated in GitLab and synchronized to GitHub.
+### Inspect the evidence
+Every run keeps its detached worktree, command results and JSON report. Only a verified run exports change.patch.
 
+## Quick start
 
-## The everyday problem
-
-A test turns red. You switch between the log, the code, and repeated attempts to understand what changed. TracePatch is designed to carry that investigation through to a reviewable result.
-
-## The intended workflow
-
-```text
-Failing test → Reproduction → Investigation → Focused patch → Checks → Report
+```sh
+git clone https://github.com/elie-laloum/tracepatch.git
+cd tracepatch
+npm test
+npm run demo
 ```
 
-The agent should work on an isolated checkout, use a bounded number of attempts, and preserve its observations. If it cannot reproduce the failure, it should say so. A green test is useful evidence, not proof that all behavior is correct.
+Clone and run from source; these commands do not assume a package has been published to a registry.
 
-## First release scope
+## How it works
 
-| Input | Work | Output |
-|---|---|---|
-| Local npm/Vitest project and an explicit test command | Reproduce, inspect, edit, verify | Patch, logs, baseline revision, result fingerprint, and report |
+`Reproduce → isolate → propose → test → export`
 
-Start with a local CLI and one documented model adapter. Add GitHub Actions log ingestion after the local workflow works reliably. Model access may have a separate cost; the report should expose usage.
+The included cart fixture starts with two failing assertions. The fixture adapter corrects quantity handling, the original tests pass, and the exported patch applies to the untouched original checkout.
 
-## The demo we will ship
+## Use it on your project
 
-A small application with a known regression: reproduce the failure, produce a correction, rerun the targeted and agreed regression checks, then inspect the exported patch. Keep the deterministic engine demo separate from evaluations using a real model.
+Create `workflow.json`, adapt the commands to your project, and use an absolute adapter path:
 
-## Release requirements
+```json
+{
+  "scope": [
+    "src/"
+  ],
+  "check": [
+    "npm",
+    "test"
+  ],
+  "failurePattern": "ERR_ASSERTION|AssertionError",
+  "setup": [
+    [
+      "npm",
+      "ci",
+      "--ignore-scripts"
+    ]
+  ],
+  "verify": [
+    [
+      "npm",
+      "run",
+      "lint"
+    ]
+  ],
+  "attempts": 3,
+  "timeoutMs": 120000,
+  "agent": [
+    "node",
+    "/absolute/path/to/tracepatch/adapters/anthropic.js"
+  ]
+}
+```
 
-- Test failures, environment failures, and failures that cannot be reproduced remain distinct.
-- Existing tests cannot be deleted or disabled to claim success.
-- Failed attempts and exhausted budgets remain visible.
-- Setup and commands work from a clean environment.
+```sh
+export ANTHROPIC_API_KEY="your-key"
+export ANTHROPIC_MODEL="your-enabled-model-id"
+node bin/tracepatch.js run --repo /path/to/app --config workflow.json --out /path/to/new-result
+```
 
-## Help shape it
+Run from this tool’s checkout. The target must be a clean Git repository; the output must be a new directory outside it. Omit checks your project does not provide. Set up dependencies explicitly. The adapter receives scoped source and failure logs; review that scope before using a hosted model.
 
-Useful early contributions: minimal failure fixtures, report usability feedback, and additional test-runner adapters. Installation instructions, the recorded demo, and published package coordinates will be added when verified.
+### Bring your own agent
 
+An adapter is an executable argv array. It reads one JSON request from stdin and returns one JSON object on stdout:
 
----
+```json
+{"summary":"Explain the change","edits":[{"path":"src/file.js","content":"Complete replacement file contents"}]}
+```
 
-[Roadmap](ROADMAP.md) · [Contributing](CONTRIBUTING.md) · [MIT license](LICENSE)
+Requests include `protocolVersion`, `workflow`, `attempt`, scoped `files`, the last `failure`, migration context when present, and `previousAttempts`. No markdown fences. Diagnostics go to stderr. See [the adapter](adapters/anthropic.js) and [the reproducible demo](examples/demo.js).
+
+### Review the result
+
+- `report.json`: command arguments, exit codes, outputs, attempts and patch SHA-256.
+- `report.md`: concise run summary.
+- `change.patch`: exported only after all configured checks pass on the same tracked diff.
+- `worktree/`: retained for inspection; apply the patch to the recorded base after review.
+
+Commands and adapters execute with your local permissions; a Git worktree is isolation for changes, not a security sandbox. Log files may contain application data. There is no automatic push or merge.
+
+## Boundaries
+
+The demo uses a deterministic adapter so anyone can reproduce it without an API key. The Anthropic adapter implements the live API contract, including usage reporting and truncation checks; live model quality has not been benchmarked. This is a bounded repair loop, not a general repository agent.
+
+## Development
+
+Run `npm test` and `npm run demo`. Tests create real Git repositories and validate the exported changes as well as refusal paths.
+
+[Contributing](CONTRIBUTING.md) · [Roadmap](ROADMAP.md) · [MIT license](LICENSE)
+
+[GitLab origin](https://gitlab.elielaloum.com/elielaloum/tracepatch) · [GitHub mirror](https://github.com/elie-laloum/tracepatch)
+
+The private GitLab repository is the source of record. This public mirror receives synchronized changes; GitLab access is required to view the origin.

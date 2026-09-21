@@ -1,17 +1,7 @@
-# Contributing to TracePatch
+# Contributing
 
-English and French contributions are welcome.
+Start with the quick start in the README and run the test suite before changing behavior. Keep pull requests focused on one observable improvement. Add a regression test for a bug, include reproduction steps, and document changes to the CLI or report format.
 
-## Source of truth
+GitHub issues and pull requests are welcome. Accepted changes are integrated into the private GitLab source and mirrored back here. Do not include credentials, application logs or private source code in issues.
 
-The [GitLab origin](https://gitlab.elielaloum.com/elielaloum/tracepatch) is private. The [GitHub mirror](https://github.com/elie-laloum/tracepatch) provides public access to the source and documentation.
-
-Open public bug reports, proposals and pull requests on GitHub. Maintainers review them, integrate accepted changes into GitLab, and publish them through the mirror. Do not merge directly into the mirror's main branch: Git mirroring does not synchronize issues or pull requests. Contributors do not need access to the private origin to propose a change.
-
-This project is in development. Start with the README and [roadmap](ROADMAP.md). Useful contributions include minimal fixtures, API feedback, and scoped implementation proposals. No executable release is available yet.
-
-Keep English and French documentation aligned. Provide a reproducible example and sanitized logs; never include credentials or private customer data in reports. The project uses the MIT license.
-
-## En français
-
-Les propositions et contributions en français sont acceptées sur GitHub. Les changements retenus sont intégrés dans le dépôt GitLab privé puis répliqués sur le miroir. L’accès au dépôt privé n’est pas nécessaire pour proposer une contribution.
+For agent integrations, keep deterministic fixtures separate from live-provider evaluations. For performance changes, report the input, environment and measurement method.

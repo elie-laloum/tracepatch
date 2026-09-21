@@ -1,0 +1,14 @@
+{
+  "name": "@elie-laloum/tracepatch",
+  "version": "0.1.0",
+  "description": "Reproduce a failing test and iterate on a scoped patch with recorded checks",
+  "type": "module",
+  "license": "MIT",
+  "author": "Elie Laloum",
+  "engines": { "node": ">=22" },
+  "bin": { "tracepatch": "bin/tracepatch.js" },
+  "exports": "./src/engine.js",
+  "files": ["bin", "src", "adapters", "examples", "README.md", "README.fr.md", "LICENSE"],
+  "scripts": { "test": "node --test test/*.test.js", "demo": "node examples/demo.js" },
+  "repository": { "type": "git", "url": "https://gitlab.elielaloum.com/elielaloum/tracepatch.git" }
+}

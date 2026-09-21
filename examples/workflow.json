@@ -1,0 +1,30 @@
+{
+  "scope": [
+    "src/"
+  ],
+  "check": [
+    "npm",
+    "test"
+  ],
+  "failurePattern": "ERR_ASSERTION|AssertionError",
+  "setup": [
+    [
+      "npm",
+      "ci",
+      "--ignore-scripts"
+    ]
+  ],
+  "verify": [
+    [
+      "npm",
+      "run",
+      "lint"
+    ]
+  ],
+  "attempts": 3,
+  "timeoutMs": 120000,
+  "agent": [
+    "node",
+    "/absolute/path/to/tracepatch/adapters/anthropic.js"
+  ]
+}
