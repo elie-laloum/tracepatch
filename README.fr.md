@@ -5,6 +5,14 @@
 
 **Donnez à un agent un échec reproduit et un périmètre de code précis. Récupérez un patch accompagné des vérifications réellement exécutées.**
 
+## Voir la démo
+
+<a href="assets/demo.mp4"><img src="assets/demo.gif" alt="TracePatch — démonstration enregistrée" width="100%"></a>
+
+<sub>Démo réellement exécutée, rejouée avec des annotations et un rythme adapté à la lecture. Adaptateur déterministe ; Git et les vérifications s’exécutent réellement.</sub>
+
+[Vidéo MP4](assets/demo.mp4) · [Reproduire la démo](docs/demo.md)
+
 ## Essayer la version 0.1
 
 ```sh

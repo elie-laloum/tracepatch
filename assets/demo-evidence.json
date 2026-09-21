@@ -1,0 +1,66 @@
+{
+  "recordedAt": "2026-09-21T12:49:08.796Z",
+  "source": "Runnable repository demo; presentation timing edited",
+  "observed": {
+    "status": "verified",
+    "checks": [
+      {
+        "label": "baseline",
+        "code": 1
+      },
+      {
+        "label": "verification 1",
+        "code": 0
+      }
+    ],
+    "changedFiles": [
+      "src/total.js"
+    ],
+    "patchSha256": "405f3038529bdecfdefa4d88f250adbec7a2182bb164b8bc591255fef4eb3248",
+    "attempts": 1,
+    "adapter": "deterministic fixture"
+  },
+  "scenes": [
+    {
+      "title": "The regression",
+      "lines": [
+        "$ npm run demo",
+        "",
+        "cart.test.js",
+        "  total(12, 2) should equal 24",
+        "  total(12, 0) should equal 0",
+        "",
+        "Baseline check: exit 1",
+        "Failure reproduced. Start an isolated repair."
+      ],
+      "tone": "fail"
+    },
+    {
+      "title": "A focused source change",
+      "lines": [
+        "src/total.js",
+        "",
+        "-export function total(price, quantity) { return price; }",
+        "+export function total(price, quantity) { return price * quantity; }",
+        "",
+        "Existing tests stay unchanged.",
+        "Original checkout stays unchanged."
+      ],
+      "tone": "normal"
+    },
+    {
+      "title": "Verify before exporting",
+      "lines": [
+        "Verification: exit 0",
+        "Status: VERIFIED",
+        "Attempts: 1",
+        "Changed files: src/total.js",
+        "",
+        "change.patch + report.json + retained worktree",
+        "",
+        "Patch SHA-256: 405f3038529bdecfdefa4d88f250adbe..."
+      ],
+      "tone": "success"
+    }
+  ]
+}
